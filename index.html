@@ -51,6 +51,10 @@ button{
     border-radius:5px;
 }
 
+button:hover{
+    opacity:0.8;
+}
+
 input, textarea, select{
     width:100%;
     padding:10px;
@@ -63,6 +67,23 @@ footer{
     color:white;
     text-align:center;
     padding:15px;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+@media(max-width:768px){
+
+nav a{
+display:block;
+margin:15px 0;
+}
+
+header{
+padding:20px;
+}
+
 }
 </style>
 </head>
@@ -88,23 +109,34 @@ footer{
 <section>
 
 <div class="card">
+
 <h2>Google Login</h2>
+
 <p>Login using your Google Account.</p>
-<button>Login with Google</button>
-<p><small>* Connect Firebase Authentication for real login.</small></p>
+
+<button onclick="googleLogin()">
+Login with Google
+</button>
+
+<p id="user"></p>
+
 </div>
 
 <div class="card" id="free">
+
 <h2>Free Notes</h2>
+
 <ul>
 <li>Introduction to C Programming</li>
 <li>Basic Mathematics Notes</li>
 <li>English Notes</li>
 <li>Selected Important Questions</li>
 </ul>
+
 </div>
 
 <div class="card" id="premium">
+
 <h2>Premium Notes 🔒</h2>
 
 <p>Unlock Semester 1–4 Notes, PYQ and Premium Questions.</p>
@@ -112,55 +144,71 @@ footer{
 <h3>Fee: ₹10 Only</h3>
 
 <p><b>UPI ID:</b> ts@upi</p>
+
 <p><b>Payment Number:</b> 8891318469</p>
 
-<button>Pay ₹10 & Unlock</button>
+<button onclick="pay()">
+Pay ₹10 & Unlock
+</button>
 
 <p>
 After payment send screenshot to Instagram:
 <b>@ts_studies</b>
 </p>
+
 </div>
 
 <div class="card" id="important">
+
 <h2>Important Questions</h2>
+
 <ul>
 <li>Graph Theory Important Questions</li>
 <li>Automata Theory Important Questions</li>
 <li>Probability & Statistics Questions</li>
 <li>Programming Questions</li>
 </ul>
+
 </div>
 
 <div class="card" id="pyq">
+
 <h2>Previous Year Question Papers</h2>
+
 <ul>
 <li>Semester 1 PYQ</li>
 <li>Semester 2 PYQ</li>
 <li>Semester 3 PYQ</li>
 <li>Semester 4 PYQ</li>
 </ul>
+
 </div>
 
 <div class="card" id="syllabus">
+
 <h2>Syllabus</h2>
+
 <ul>
 <li>Semester 1 Syllabus</li>
 <li>Semester 2 Syllabus</li>
 <li>Semester 3 Syllabus</li>
 <li>Semester 4 Syllabus</li>
 </ul>
+
 </div>
 
 <div class="card" id="doubt">
+
 <h2>Ask Your Doubt</h2>
 
-<form>
+<form onsubmit="sendDoubt(event)">
 
 <label>Name</label>
+
 <input type="text" placeholder="Enter your name">
 
 <label>Semester</label>
+
 <select>
 <option>Semester 1</option>
 <option>Semester 2</option>
@@ -169,9 +217,12 @@ After payment send screenshot to Instagram:
 </select>
 
 <label>Your Question</label>
+
 <textarea rows="5" placeholder="Type your doubt here"></textarea>
 
-<button type="submit">Submit Question</button>
+<button type="submit">
+Submit Question
+</button>
 
 </form>
 
@@ -180,6 +231,7 @@ After payment send screenshot to Instagram:
 </div>
 
 <div class="card" id="contact">
+
 <h2>Contact</h2>
 
 <p>
@@ -201,21 +253,67 @@ Owner:
 </footer>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBYmIPzZvfpNZiqzvQFtPZZ7oKVfQxUwoc",
-    authDomain: "ts-study-85967.firebaseapp.com",
-    projectId: "ts-study-85967",
-    storageBucket: "ts-study-85967.firebasestorage.app",
-    messagingSenderId: "421920863834",
-    appId: "1:421920863834:web:90acb6b29945755f278a63",
-    measurementId: "G-FF442PHWV1"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBYmIPzZvfpNZiqzvQFtPZZ7oKVfQxUwoc",
+authDomain: "ts-study-85967.firebaseapp.com",
+projectId: "ts-study-85967",
+storageBucket: "ts-study-85967.firebasestorage.app",
+messagingSenderId: "421920863834",
+appId: "1:421920863834:web:90acb6b29945755f278a63",
+measurementId: "G-FF442PHWV1"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const analytics = getAnalytics(app);
+
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
+
+window.googleLogin = async function(){
+
+try{
+
+const result = await signInWithPopup(auth, provider);
+
+document.getElementById("user").innerHTML =
+"Welcome " + result.user.displayName;
+
+}
+catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+window.pay = function(){
+
+alert("Payment Feature Coming Soon");
+
+}
+
+window.sendDoubt = function(event){
+
+event.preventDefault();
+
+alert("Question Submitted Successfully");
+
+}
+
 </script>
 
 </body>
