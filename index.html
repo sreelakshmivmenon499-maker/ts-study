@@ -200,5 +200,23 @@ Owner:
 © 2026 TS Study | All Rights Reserved
 </footer>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYmIPzZvfpNZiqzvQFtPZZ7oKVfQxUwoc",
+    authDomain: "ts-study-85967.firebaseapp.com",
+    projectId: "ts-study-85967",
+    storageBucket: "ts-study-85967.firebasestorage.app",
+    messagingSenderId: "421920863834",
+    appId: "1:421920863834:web:90acb6b29945755f278a63",
+    measurementId: "G-FF442PHWV1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
 </body>
 </html>
