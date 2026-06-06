@@ -285,14 +285,34 @@ alert(error.message);
 }
 
 }
-
-window.sendDoubt = function(event){
+window.sendDoubt = async function(event){
 
 event.preventDefault();
+
+const name = document.getElementById("name").value;
+const semester = document.getElementById("semester").value;
+const question = document.getElementById("question").value;
+
+try{
+
+await addDoc(collection(db,"doubts"),{
+name:name,
+semester:semester,
+question:question,
+createdAt:new Date()
+});
 
 alert("Question Submitted Successfully");
 
 }
+catch(error){
+
+alert("Error: " + error.message);
+
+}
+
+}
+
 
 </script>
 
