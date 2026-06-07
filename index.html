@@ -251,6 +251,12 @@ collection,
 addDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
 
 const firebaseConfig = {
 apiKey: "AIzaSyBYmIPzZvfpNZiqzvQFtPZZ7oKVfQxUwoc",
@@ -291,6 +297,8 @@ alert(error.message);
 
 window.sendDoubt = async function(event){
 
+alert("sendDoubt started");
+
 event.preventDefault();
 
 const name = document.getElementById("name").value;
@@ -299,7 +307,7 @@ const question = document.getElementById("question").value;
 
 try{
 
-await addDoc(collection(db,"doubts"),{
+await addDoc(collection(db,"doubts"), {
 name:name,
 semester:semester,
 question:question,
@@ -315,7 +323,8 @@ document.getElementById("question").value = "";
 }
 catch(error){
 
-alert("Error: " + error.message);
+alert("Firebase Error: " + error.message);
+console.error(error);
 
 }
 
